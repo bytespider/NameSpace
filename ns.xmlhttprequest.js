@@ -229,12 +229,14 @@ NS.XMLHttpRequest = function NS_XMLHttpRequest(config) {
 };
 
 // Constants
+// States
 NS.XMLHttpRequest.UNSENT                = 0;
 NS.XMLHttpRequest.OPENED                = 1;
 NS.XMLHttpRequest.HEADERS_RECEIVED      = 2;
 NS.XMLHttpRequest.LOADING               = 3;
 NS.XMLHttpRequest.DONE                  = 4;
 
+// Request methods
 NS.XMLHttpRequest.GET                   = 'GET';
 NS.XMLHttpRequest.POST                  = 'POST';
 NS.XMLHttpRequest.PUT                   = 'PUT';
@@ -242,6 +244,7 @@ NS.XMLHttpRequest.UPDATE                = 'UPDATE';
 NS.XMLHttpRequest.DELETE                = 'DELETE';
 NS.XMLHttpRequest.OPTIONS               = 'OPTIONS';
 
+// Loose coupling flags
 NS.XMLHttpRequest.READY_STATE_CHANGE    = 'ready-state-change';
 NS.XMLHttpRequest.SUCCESS               = 'success';
 NS.XMLHttpRequest.FAILURE               = 'failure';

@@ -1,3 +1,10 @@
+/** 
+* @projectDescription   A set of reuseable cross-platform components
+*
+* @author               Rob Griffiths <rob@bytespider.eu>
+* @version              0.1 
+*/
+
 (function(window) {
     
     /**
