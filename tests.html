@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        
+        <script type="application/javascript" src="ns.xmlhttprequest.js"></script>
+    </head>
+    <body>
+        &nbsp;
+        <script type="application/javascript">
+        var john = {};
+        john.toString = function(){return 'john'};
+        
+        //var mb = NS.MessageBus.getInstance();
+        //mb.subscribe(john, NS.XMLHttpRequest.SUCCESS, this, function(data){alert(data.toSource())});
+        
+        var xhr = new NS.XMLHttpRequest();
+        xhr.open(NS.XMLHttpRequest.GET, 'http://www.google.co.uk');
+        xhr.send();
+                
+        </script>
+    </body>
+</html>
