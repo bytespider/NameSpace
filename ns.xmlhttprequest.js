@@ -130,8 +130,7 @@ NS.XMLHttpRequest = function NS_XMLHttpRequest(config) {
             _xhr.setRequestHeader(i, _headers[i]);
         }
         
-        _xhr.send(data);
-        return this; // allow chaining
+        return _xhr.send(data);
     };
     
     /**
@@ -149,19 +148,25 @@ NS.XMLHttpRequest = function NS_XMLHttpRequest(config) {
     };
     
     /**
-     * @return {Headers}
+     * Simple wrapper for XMLHttpRequest's version
+     * 
      * @type {Object}
      * @memberOf NS.XMLHttpRequest
      */
-    this.getAllResponseHeaders = function () {};
+    this.getAllResponseHeaders = function () {
+        return _xhr.getAllResponseHeaders();
+    };
     
     /**
+     * Simple wrapper for XMLHttpRequest's version
+     * 
      * @param {String} header
-     * @return {Header}
      * @type {String}
      * @memberOf NS.XMLHttpRequest
      */
-    this.getResponseHeader = function (header) {};
+    this.getResponseHeader = function (header) {
+        return _xhr.getResponseHeader(header);
+    };
     
     this.toString = function (){
         return 'NS.XMLHttpRequest';
