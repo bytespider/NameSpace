@@ -12,7 +12,7 @@ function(variable) {
     return variable !== undefined;
 };
 
-NS.XMLParser= function MS_XMLParser(config) {
+NS.XMLParser= function NS_XMLParser(config) {
     var xml = config.xml;
     if (typeof xml == "string") {
         xml = DOMParser ? (new DOMParser()).parseFromString(xml, "text/xml") : ((new ActiveXObject("Microsoft.XMLDOM")).loadXML(xml));
