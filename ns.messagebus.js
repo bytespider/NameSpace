@@ -2,57 +2,62 @@
 * @projectDescription   A set of reuseable cross-platform components
 *
 * @author               Rob Griffiths <rob@bytespider.eu>
-* @version              0.1 
+* @version              0.3
 */
 
-var NS = NS || {};
-var undefined = window.undefined;
-var defined = window.defined ||
-function(variable) {
-    return variable !== undefined;
-};
-
-/**
- * @constructor
- */
-NS.MessageBus = function NS_MessageBus() {
-    var _messageBus = {};
+(function (W){
+    var NS = W.NS = (typeof W.NS != 'undefined') ? W.NS : {};
+    
+    /* Private variables */
+    var message_bus;
     
     /**
-     * Adds a component to the messaging system
-     * 
-     * @param {Object} subscriber
-     * @param {String} topic
-     * @param {Object} scope
-     * @param {Function} callback
-     * @param {Array} args
+     * @constructor
      */
-    this.subscribe = function NS_MessageBus_subscribe(subscriber, topic, scope, callback, args) {
-        if (!defined(_messageBus[topic])) {
-            _messageBus[topic] = {};
-        }
-        _messageBus[topic][subscriber] = {
-            'callback': callback || function(){},
-            'scope': scope || subscriber || this,
-            'arguments': args || {}
-        };
+    NS.MessageBus = function () {
+        message_bus = {};
     };
     
-    this.publish = function NS_MessageBus_publish(topic, data) {
-        if (!defined(_messageBus[topic])) {
-            return false;
-        }
-        for (var i in _messageBus[topic]) {
-            var subscriber = _messageBus[topic][i];
-            
-            subscriber.arguments.data = data;
-            return subscriber.callback.call(subscriber.scope, subscriber.arguments);
+    NS.MessageBus.prototype = {
+        /**
+         * Adds a component to the messaging system
+         * 
+         * @param {Object} subscriber
+         * @param {String} topic
+         * @param {Object} scope
+         * @param {Function} callback
+         * @param {Array} args
+         */
+        subscribe: function (subscriber, topic, scope, callback, args) {
+            if (typeof message_bus[topic] != 'undefined') {
+                message_bus[topic] = {};
+            }
+            message_bus[topic][subscriber] = {
+                'callback': callback || function(){},
+                'scope': scope || subscriber || this,
+                'arguments': args || {}
+            };
+        },
+        
+        publish: function (topic, data) {
+            if (typeof message_bus[topic] != 'undefined') {
+                return false;
+            }
+            for (var i in message_bus[topic]) {
+                var subscriber = message_bus[topic][i];
+                
+                subscriber.arguments.data = data;
+                return subscriber.callback.call(subscriber.scope, subscriber.arguments);
+            }
         }
     };
-};
-
-// Singleton
-NS.MessageBus.getInstance = new (function () {
-    var instance = new NS.MessageBus();
-    return function() {return instance};
-});
+    
+    // Singleton
+    NS.MessageBus.getInstance = new (function () {
+        var instance = new NS.MessageBus();
+        return function() {
+            return instance;
+        };
+    });
+    
+})(window);
