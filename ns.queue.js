@@ -1,15 +1,21 @@
 /**
-* @projectDescription A set of reuseable cross-platform components
-*
-* @author Rob Griffiths <rob@bytespider.eu>
-* @version 0.1
-*/
+ * @projectDescription A set of reuseable cross-platform components
+ *
+ * @author               Rob Griffiths <rob@bytespider.eu>
+ * @version              0.3
+ */
 
 (function (W){
     var NS = W.NS = (typeof W.NS != 'undefined') ? W.NS : {};
     
+    /* Private variables */
     var queue, max_length, current;
-   	NS.Queue = function NS_Queue(max_length) {
+    
+    /**
+     * Standard FIFO Queue implimentation
+     * @param {Number} max_length
+     */
+   	NS.Queue = function (max_length) {
     	queue = [];
     	max_length = max_length || 4294967295;
     	current = null;
@@ -36,11 +42,14 @@
     		
     		return current;
     	},
-    	taskDone: function () {
-    		current = null;
-    		queue.shift();
-    		this.length = queue.length;
-    	}
+    	taskDone: function(){
+            current = null;
+            queue.shift();
+            this.length = queue.length;
+        },
+        toString: function () {
+            return '[NS.Queue]';
+        }
     };
     
 })(window);

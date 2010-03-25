@@ -1,23 +1,45 @@
 /** 
-* @projectDescription   A set of reuseable cross-platform components
-*
-* @author               Rob Griffiths <rob@bytespider.eu>
-* @version              0.1 
-*/
+ * @projectDescription   A set of reuseable cross-platform components
+ *
+ * @author               Rob Griffiths <rob@bytespider.eu>
+ * @version              0.3
+ */
 
-var NS = NS || {};
-var undefined = window.undefined;
-var defined = window.defined ||
-function(variable) {
-    return variable !== undefined;
-};
-
-NS.XMLParser= function NS_XMLParser(config) {
-    var xml = config.xml;
-    if (typeof xml == "string") {
-        xml = DOMParser ? (new DOMParser()).parseFromString(xml, "text/xml") : ((new ActiveXObject("Microsoft.XMLDOM")).loadXML(xml));
-    }
+(function (W){
+    var NS = W.NS = (typeof W.NS != 'undefined') ? W.NS : {};
     
+    /* Private variables */
+    var xml;
+    
+    /**
+     * XML to JSON parser
+     * @param {Object} config
+     */
+    NS.XMLParser = function (config) {
+        xml = config.xml;
+        if (typeof xml == "string") {
+            if (typeof W.DOMParser != 'undefined') {
+                xml = (new DOMParser()).parseFromString(xml, 'text/xml');
+            } else {
+                try {
+                    xml = (new ActiveXObject("Microsoft.XMLDOM")).loadXML(xml);
+                } catch (e) {
+                    throw this + ' No compatable XML DOM parser found';
+                }
+            }
+        }
+    };
+    
+    NS.XMLParser.prototype = {
+        toXMLString: function () {
+            return ''; /* @todo: impliment xml string output */
+        },
+        toJSONString: function () {
+            return nodesToJSONOnject(xml.childNodes);
+        }
+    };
+    
+    /* Private methods */
     function nodesToJSONOnject(nodes, parent) {
         for (var n = 0; n < nodes.length; n++) {
             if (nodes[n].nodeType == 7) {
@@ -57,7 +79,7 @@ NS.XMLParser= function NS_XMLParser(config) {
     }
     
     function attributesToJSONObject(attributes) {
-        if (!attributes) {return {}}
+        if (!attributes) {return {};}
 
         var attribs = {};
         for (var i = 0; i < attributes.length; i++) {
@@ -65,8 +87,5 @@ NS.XMLParser= function NS_XMLParser(config) {
         }
         return attribs;
     }
-
-    this.toJSON = function () {
-        return nodesToJSONOnject(xml.childNodes, {});
-    };
-};
+    
+})(window);
