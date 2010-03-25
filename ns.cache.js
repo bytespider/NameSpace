@@ -13,11 +13,15 @@
     
     /**
      * Simple wrapper for DOM LocalStorage
-     * @param {Object} config
      */
     NS.Cache = function (){
         cache_id = '';
         cache = null;
+        
+        // check we can actually do this
+        if (typeof W.localStorage == 'undefined') {
+            throw this + ' No compatable storage method was found';
+        }
     };
     
     NS.Cache.prototype = {
@@ -31,7 +35,7 @@
          */
         load: function (id) {
             cache_id = id || cache_id || '';
-            cache = window.localStorage.getItem(cache_id);
+            cache = W.localStorage.getItem(cache_id);
             return cache;  
         },
         
@@ -43,10 +47,10 @@
         save: function (data) {
             cache_id = id || cache_id || '';
             if (!cache_id) {
-                throw "[NS.Cache] expects id to be set";
+                throw this + " Expects id to be set";
             }
             cache = data ? cache : {};
-            window.localStorage.setItem(cache_id, cache);
+            W.localStorage.setItem(cache_id, cache);
         },
         toString: function () {
             return '[NS.Cache]';
